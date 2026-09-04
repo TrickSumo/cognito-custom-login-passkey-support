@@ -1,7 +1,7 @@
 import { useState } from "react";
 import LoginForm from "./components/LoginForm";
 import SignUpForm from "./components/SignUpForm";
-import AddPasskeyButton from "./components/AddPasskeyButton";
+import PasskeyManager from "./components/PasskeyManager";
 
 function App() {
   const [view, setView] = useState("login");
@@ -11,7 +11,7 @@ function App() {
     return (
       <div style={{ maxWidth: 320, margin: "0 auto" }}>
         <h2>You're logged in</h2>
-        <AddPasskeyButton accessToken={tokens.AccessToken} />
+        <PasskeyManager accessToken={tokens.AccessToken} />
         <button onClick={() => setTokens(null)} style={{ marginTop: 16 }}>
           Log out
         </button>

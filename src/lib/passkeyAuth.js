@@ -3,6 +3,8 @@ import {
   RespondToAuthChallengeCommand,
   StartWebAuthnRegistrationCommand,
   CompleteWebAuthnRegistrationCommand,
+  ListWebAuthnCredentialsCommand,
+  DeleteWebAuthnCredentialCommand,
 } from "@aws-sdk/client-cognito-identity-provider";
 import { startRegistration, startAuthentication } from "@simplewebauthn/browser";
 import { cognitoClient, CLIENT_ID } from "./cognitoClient";
@@ -73,4 +75,22 @@ export async function signInWithPasskey(username) {
   );
 
   return result.AuthenticationResult;
+}
+
+// Returns the list of passkeys registered for the logged-in user
+export async function listPasskeys(accessToken) {
+  const response = await cognitoClient.send(
+    new ListWebAuthnCredentialsCommand({ AccessToken: accessToken })
+  );
+  return response.Credentials ?? [];
+}
+
+// Deletes a single passkey by its credential ID
+export async function deletePasskey(accessToken, credentialId) {
+  await cognitoClient.send(
+    new DeleteWebAuthnCredentialCommand({
+      AccessToken: accessToken,
+      CredentialId: credentialId,
+    })
+  );
 }
